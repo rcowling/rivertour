@@ -1,0 +1,103 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Prague",
+        "DESCRIPTION": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.4378,
+          50.075539
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Roth",
+        "DESCRIPTION": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.090971,
+          49.245586
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Hassfurt",
+        "DESCRIPTION": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.506556,
+          50.03187
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Aschaffenburg",
+        "DESCRIPTION": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.147466,
+          49.976929
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Düsseldorf",
+        "DESCRIPTION": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.77567,
+          51.22496
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Marktheidenfeld ",
+        "DESCRIPTION": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.60672,
+          49.84528
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Amsterdam, Netherlands ",
+        "DESCRIPTION": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.85168,
+          52.370216
+        ]
+      }
+    }
+  ]
+}

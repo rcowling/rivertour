@@ -1,0 +1,185 @@
+﻿{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": "1-2",
+        "LOCATION": "Frankfurt",
+        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.682127,
+          50.110924
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": 3,
+        "LOCATION": "Cologne",
+        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.95991,
+          50.940529
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": 4,
+        "LOCATION": "Rüdesheim",
+        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.80434,
+          49.84523
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": 5,
+        "LOCATION": "Heidelberg",
+        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.698004,
+          49.408737
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": 6,
+        "LOCATION": "Wertheim",
+        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.513431,
+          49.757179
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": 7,
+        "LOCATION": "Wurzburg",
+        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.980246,
+          49.813616
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": 8,
+        "LOCATION": "Bamberg",
+        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.902764,
+          49.898815
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": 9,
+        "LOCATION": "Nuremberg",
+        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.07977,
+          49.446007
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": 10,
+        "LOCATION": "Regensburg",
+        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.101624,
+          49.013432
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": 11,
+        "LOCATION": "Passau",
+        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.431947,
+          48.566734
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": "12-14",
+        "LOCATION": "Vienna",
+        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.373819,
+          48.208176
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": "15-16",
+        "LOCATION": "Budapest Hangary",
+        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.040236,
+          47.497913
+        ]
+      }
+    }
+  ]
+}
