@@ -6,7 +6,7 @@
       "properties": {
         "DAY": "1-2",
         "LOCATION": "Frankfurt",
-        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+        "DESCRIPTION": "Fly overnight to Frankfurt, Germany. Enjoy the Mainz attraction."
       },
       "geometry": {
         "type": "Point",
@@ -21,7 +21,7 @@
       "properties": {
         "DAY": 3,
         "LOCATION": "Cologne",
-        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+        "DESCRIPTION": "Sip Kölsch while exploring the historic cultural center of Cologne."
       },
       "geometry": {
         "type": "Point",
@@ -36,7 +36,7 @@
       "properties": {
         "DAY": 4,
         "LOCATION": "Rüdesheim",
-        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+        "DESCRIPTION": "Rhine Valley views; Rüdesheim personalized for you."
       },
       "geometry": {
         "type": "Point",
@@ -51,7 +51,7 @@
       "properties": {
         "DAY": 5,
         "LOCATION": "Heidelberg",
-        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+        "DESCRIPTION": "Day-tripping through romantic Heidelberg."
       },
       "geometry": {
         "type": "Point",
@@ -66,7 +66,7 @@
       "properties": {
         "DAY": 6,
         "LOCATION": "Wertheim",
-        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+        "DESCRIPTION": "Exploring village life in Marktheidenfeld, with a BBQ lunch and traditional live music."
       },
       "geometry": {
         "type": "Point",
@@ -81,7 +81,7 @@
       "properties": {
         "DAY": 7,
         "LOCATION": "Wurzburg",
-        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+        "DESCRIPTION": "Tour and wine tasting inside the Würzburg Residenz."
       },
       "geometry": {
         "type": "Point",
@@ -96,7 +96,7 @@
       "properties": {
         "DAY": 8,
         "LOCATION": "Bamberg",
-        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+        "DESCRIPTION": "Altmühl Valley sailing and walking tour of Bamberg."
       },
       "geometry": {
         "type": "Point",
@@ -111,7 +111,7 @@
       "properties": {
         "DAY": 9,
         "LOCATION": "Nuremberg",
-        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+        "DESCRIPTION": "Nuremberg, customized for you — tour the town’s highlights or explore its WWII history."
       },
       "geometry": {
         "type": "Point",
@@ -126,7 +126,7 @@
       "properties": {
         "DAY": 10,
         "LOCATION": "Regensburg",
-        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+        "DESCRIPTION": "Regensburg: Roman architecture and Bavarian charms."
       },
       "geometry": {
         "type": "Point",
@@ -141,7 +141,7 @@
       "properties": {
         "DAY": 11,
         "LOCATION": "Passau",
-        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+        "DESCRIPTION": "Music and pub crawls in picturesque Passau."
       },
       "geometry": {
         "type": "Point",
@@ -156,7 +156,7 @@
       "properties": {
         "DAY": "12-14",
         "LOCATION": "Vienna",
-        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+        "DESCRIPTION": "Waltzing into Vienna and Liechtenstein Palace. Vienna as you like it, and a private Kursalon concert. Bustling Budapest and the Captain’s Farewell Party."
       },
       "geometry": {
         "type": "Point",
@@ -171,7 +171,7 @@
       "properties": {
         "DAY": "15-16",
         "LOCATION": "Budapest Hangary",
-        "DESCRIPTION": "Stop here and enjoy the amazing views for the city from the lake"
+        "DESCRIPTION": "Going for baroque on a city tour of Budapest. Disembark ship and return home (or begin your extension to Bratislava and Prague!)."
       },
       "geometry": {
         "type": "Point",

@@ -89,15 +89,16 @@
         .listings .item:last-child { border-bottom:none; }
         .listings .item .title {
           display:block;
-          color:#00853e;
+          color:#164777;
           font-weight:700;
+          font-size: 20px;    
         }
 
         .listings .item .title small { font-weight:400; }
-        .listings .item.active .title,
-        .listings .item .title:hover { color:#8cc63f; }
+        .listings .item.active .title,.listings .item.active .text, .listings .item.active .details
+         { color:white; }
         .listings .item.active {
-          background-color:#f8f8f8;
+          background-color:#ff890b;
         }
         ::-webkit-scrollbar {
           width:3px;
@@ -109,9 +110,9 @@
           background:none;
         }
         ::-webkit-scrollbar-thumb {
-          background:#00853e;
+          background:#164777;
           border-radius:0;
-        }
+        }        
 
         .marker {width:0; height:0;}
 
@@ -120,13 +121,13 @@
           justify-content:center;
           align-items:center;
           box-sizing:border-box;
-          width: 30px;
-          height: 30px;
-          color: #fff;
-          background: #27aae1;
-          border:solid 2px;
-          border-radius: 100% 100% 100%;
-          box-shadow:0 0 2px #000;
+          width: 25px;
+          height: 25px;
+          color: white;
+          background: #ff580e;
+          border: solid 1px;
+          border-radius: 100% 100% 100%;          
+          opacity: 0.8;    
           cursor: pointer;
             
           transform-origin:0 0;
@@ -134,6 +135,28 @@
         }
 
         .marker b {transform: rotateZ(135deg)}
+          
+        .marker2 {width:0; height:0;}
+
+        .marker2  span {
+          display:flex;
+          justify-content:center;
+          align-items:center;
+          box-sizing:border-box;
+          width: 15px;
+          height: 15px;
+          color: white;
+          background: #164777;
+          border:solid 1px;
+          border-radius: 100% 100% 100%;
+          opacity: 0.8;
+          cursor: pointer;
+            
+          transform-origin:0 0;
+          transform: rotateZ(-135deg);
+        }
+
+        .marker2 b {transform: rotateZ(135deg)}  
 
         .clearfix { display:block; }
         .clearfix:after {
@@ -147,6 +170,7 @@
         /* Marker tweaks */
         .mapboxgl-popup {
           padding-bottom: 50px;
+           
         }
 
         .mapboxgl-popup-close-button {
@@ -155,44 +179,40 @@
         .mapboxgl-popup-content {
           font:400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
           padding:0;
-          width:180px;
+          width:auto;
+          height: 80px;    
         }
         .mapboxgl-popup-content-wrapper {
-          padding:1%;
+          padding:1%;          
         }
         .mapboxgl-popup-content h3 {
-          background:#91c949;
-          color:#fff;
-          margin:0;
-          display:block;
-          padding:10px;
-          border-radius:3px 3px 0 0;
+            
+          font-size: 40px;
+          color:#164777;
+          display: inline-block;
           font-weight:700;
-          margin-top:-15px;
+          
         }
 
         .mapboxgl-popup-content h4 {
-          margin:0;
-          display:block;
-          padding: 10px 10px 10px 10px;
-          font-weight:400;
+          color: #ff890b;
+          display:inline-block;
+          font-size: 40px;    
+          font-weight:700;
         }
 
         .mapboxgl-popup-content div {
-          padding:10px;
+          padding:0px;
         }
 
         .mapboxgl-container .leaflet-marker-icon {
           cursor:pointer;
         }
+          
+          .mapboxgl-popup-content p {
+              
+          }  
 
-        .mapboxgl-popup-anchor-top > .mapboxgl-popup-content {
-          margin-top: 15px;
-        }
-
-        .mapboxgl-popup-anchor-top > .mapboxgl-popup-tip {
-          border-bottom-color: #91c949;
-        }
       </style>
   </head>
 
@@ -212,14 +232,14 @@
     };
   }
 
-  mapboxgl.accessToken = 'pk.eyJ1IjoiZXhhbXBsZXMiLCJhIjoiY2lqbmpqazdlMDBsdnRva284cWd3bm11byJ9.V6Hg2oYJwMAxeoR9GEzkAA';
+  mapboxgl.accessToken = 'pk.eyJ1IjoicmNvd2xpbmciLCJhIjoiY2lzZ2YwcjZtMDFwdzNvcnQ3bmR3NXFhcCJ9.TI01a_YqNaqKWigFu70x7w';
 
   // This adds the map
   var map = new mapboxgl.Map({
     // container id specified in the HTML
     container: 'map',
     // style URL
-    style: 'mapbox://styles/mapbox/outdoors-v9',
+    style: 'mapbox://styles/rcowling/cjuu7he8g1rco1fs2fpclbxh2',
     // initial position in [long, lat] format
     center: [9.980246, 49.813616],
     // initial zoom
@@ -229,7 +249,7 @@
   
   // This adds the data to the map
   map.on('load', function (e) {
-    // Load the data using AJAX
+    // Load the tour data using AJAX
     $.ajax({
           dataType: 'json',
           url: 'tourstops.geojson',
@@ -245,7 +265,7 @@
             var el = document.createElement('div');
             el.id = "marker-" + i;
             el.className = 'marker';
-            el.innerHTML = '<span><b>' + (i + 1) + '</b></span>'    
+            el.innerHTML = '<span><b>' + '' + '</b></span>'    
             // Add markers to the map at all points
             new mapboxgl.Marker(el, {offset: [0, -23]})
                 .setLngLat(marker.geometry.coordinates)
@@ -253,10 +273,10 @@
 
             el.addEventListener('click', function(e){
                 // 1. Fly to the point
-                flyToStore(marker);
+                //flyToStore(marker);
 
                 // 2. Close all other popups and display popup for clicked store
-                //createPopUp(marker);
+                createPopUp(marker);
 
                 // 3. Highlight listing in sidebar (and remove highlight for all other listings)
                 var activeItem = document.getElementsByClassName('active');
@@ -270,6 +290,31 @@
                 listing.classList.add('active');
                 // scroll to the active element on the sidebar    
                 listing.scrollIntoView();
+            });
+        });
+        }
+    });
+      // Add the cities layer via AJAX
+      $.ajax({
+          dataType: 'json',
+          url: 'cities.geojson',
+          type: "GET",    
+          success: function(data) {
+          // This is where your interactions with the symbol layer used to be
+          // Now you have interactions with DOM markers instead
+          data.features.forEach(function(marker, i) {
+            // Create an img element for the marker
+            var el = document.createElement('div');
+            el.id = "marker-" + i;
+            el.className = 'marker2';
+            el.innerHTML = '<span><b>' + '' + '</b></span>'    
+            // Add markers to the map at all points
+            new mapboxgl.Marker(el, {offset: [0, -23]})
+                .setLngLat(marker.geometry.coordinates)
+                .addTo(map);
+
+            el.addEventListener('click', function(e){
+                // markers
             });
         });
         }
@@ -288,10 +333,10 @@
     if (popUps[0]) popUps[0].remove();
 
 
-    var popup = new mapboxgl.Popup({closeOnClick: false})
+    var popup = new mapboxgl.Popup({closeOnClick: true})
           .setLngLat(currentFeature.geometry.coordinates)
-          .setHTML('<h3>Sweetgreen</h3>' +
-            '<h4>' + currentFeature.properties.address + '</h4>')
+          .setHTML('<h3>DAY</h3>' + ' ' +
+            '<h4>' + currentFeature.properties.DAY + '</h4>'     )
           .addTo(map);
   }
 
@@ -310,12 +355,14 @@
       link.href = '#';
       link.className = 'title';
       link.dataPosition = i;
-      link.innerHTML = 'DAY: ' + prop.DAY;
+      link.innerHTML = 'DAY ' + prop.DAY;
         
       var city = listing.appendChild(document.createElement('div'));
-      city.innerHTML = prop.LOCATION;    
+      city.className = 'text';    
+      city.innerHTML = '<b>' + prop.LOCATION; + '</b>'    
 
       var details = listing.appendChild(document.createElement('div'));
+      details.className = 'details';    
       details.innerHTML = prop.DESCRIPTION;
         
       link.addEventListener('click', function(e){
