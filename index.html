@@ -217,7 +217,7 @@
     zoom: 5,
     scrollZoom: false
   });
-  
+  var url = 'cities.geojson'
   // This adds the data to the map
   map.on('load', function (e) {
     // Load the tour data using AJAX
@@ -265,36 +265,38 @@
         });
         }
     });
-      // Add the cities layer via AJAX
-      $.ajax({
-          dataType: 'json',
-          url: 'cities.geojson',
-          type: "GET",    
-          success: function(data) {
-          // This is where your interactions with the symbol layer used to be
-          // Now you have interactions with DOM markers instead
-          data.features.forEach(function(marker2, i) {
-            // Create an img element for the marker
-            var el2 = document.createElement('div');
-            el2.id = "marker-" + i;
-            el2.className = 'marker2';
-            el2.innerHTML = '<span><b>' + '' + '</b></span>'    
-            // Add markers to the map at all points
-            new mapboxgl.Marker(el2, {offset: [0, -23]})
-                .setLngLat(marker2.geometry.coordinates)
-                .addTo(map);
-
-            el2.addEventListener('click', function(e){
-                console.log("mrk click" + marker2.geometry.coordinates);
-                 new mapboxgl.Popup({closeOnClick: true})
-          .setLngLat(marker2.geometry.coordinates)
-          .setHTML(marker2.properties.NAME)
-          .addTo(map);
-            });
-        });
+      map.addSource('cities', { type: 'geojson', data: url }); 
+      
+      map.addLayer({
+        id: "city",
+        type: "circle",
+        source: "cities",
+        paint: {
+        "circle-color": "#11b4da",
+        "circle-radius": 5,
+        "circle-stroke-width": 1,
+        "circle-stroke-color": "#fff"
         }
-    });
+     });
   });
+      
+  map.on('click', 'city', function (e) {
+        var feature = e.features[0]; //get the properties of the clicked feature
+        console.log(feature);       
+        new mapboxgl.Popup({closeOnClick: true, offset: [0, 50]})
+            .setLngLat(e.lngLat)          
+            .setHTML('<b>' + feature.properties.NAME + '</b>')                   
+            .addTo(map); // Add the popup to the map        
+    });
+    
+    map.on('mouseenter', 'city', function () {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+
+    // Change it back to a pointer when it leaves.
+    map.on('city', function () {
+        map.getCanvas().style.cursor = '';
+    });      
 
   function flyToStore(currentFeature) {
     map.flyTo({
