@@ -217,7 +217,12 @@
     zoom: 5,
     scrollZoom: false
   });
+      
   var url = 'cities.geojson'
+  
+  // Add zoom and rotation controls to the map.
+  map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+      
   // This adds the data to the map
   map.on('load', function (e) {
     // Load the tour data using AJAX
