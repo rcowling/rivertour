@@ -126,10 +126,8 @@
           color: white;
           background: #ff580e;
           border: solid 1px;
-          border-radius: 100% 100% 100%;          
-          opacity: 0.8;    
-          cursor: pointer;
-            
+          border-radius: 100% 100% 100%;              
+          cursor: pointer;            
           transform-origin:0 0;
           transform: rotateZ(-135deg);
         }
@@ -169,7 +167,7 @@
 
         /* Marker tweaks */
         .mapboxgl-popup {
-          padding-bottom: 50px;
+          padding-bottom: 0px;
            
         }
 
@@ -219,6 +217,7 @@
   });
       
   var url = 'cities.geojson'
+  var route_url = 'route.geojson'
   
   // Add zoom and rotation controls to the map.
   map.addControl(new mapboxgl.NavigationControl(), 'top-right');
@@ -243,7 +242,7 @@
             el.className = 'marker';
             el.innerHTML = '<span><b>' + '' + '</b></span>'    
             // Add markers to the map at all points
-            new mapboxgl.Marker(el, {offset: [0, -23]})
+            new mapboxgl.Marker(el, {offset: [0, 17]})
                 .setLngLat(marker.geometry.coordinates)
                 .addTo(map);
 
@@ -270,6 +269,18 @@
         });
         }
     });
+      
+      map.addSource('route', { type: 'geojson', data: route_url }); 
+      
+      map.addLayer({
+        id: "path",
+        type: "line",
+        source: "route",
+        paint: {
+        "line-color": "#164777",
+        "line-width": 4        
+        }
+     });
       map.addSource('cities', { type: 'geojson', data: url }); 
       
       map.addLayer({
@@ -282,13 +293,27 @@
         "circle-stroke-width": 1,
         "circle-stroke-color": "#fff"
         }
-     });
+     });    
+      
+      /*map.addSource('tour', { type: 'geojson', data: 'tourstops.geojson' }); 
+      
+      map.addLayer({
+        id: "stops",
+        type: "circle",
+        source: "tour",
+        paint: {
+        "circle-color": "#11b4da",
+        "circle-radius": 12,
+        "circle-stroke-width": 1,
+        "circle-stroke-color": "#fff"
+        }
+     }); */
   });
       
   map.on('click', 'city', function (e) {
         var feature = e.features[0]; //get the properties of the clicked feature
         console.log(feature);       
-        new mapboxgl.Popup({closeOnClick: true, offset: [0, 50]})
+        new mapboxgl.Popup({closeOnClick: true, offset: [0, 0]})
             .setLngLat(e.lngLat)          
             .setHTML('<b>' + feature.properties.NAME + '</b>')                   
             .addTo(map); // Add the popup to the map        
