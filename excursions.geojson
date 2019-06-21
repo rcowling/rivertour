@@ -1,0 +1,70 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Amsterdam"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.895168,
+          52.370216
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Dusseldorf"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.773456,
+          51.227741
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Heidelberg"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.672434,
+          49.39875
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Hassfurt"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.50674,
+          50.03154
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Nuremberg"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.076665,
+          49.452103
+        ]
+      }
+    }
+  ]
+}

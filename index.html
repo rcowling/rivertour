@@ -10,6 +10,7 @@
       crossorigin="anonymous"></script>
       <script src='https://static-assets.mapbox.com/gl-pricing/dist/mapbox-gl.js'></script>
       <link href='https://static-assets.mapbox.com/gl-pricing/dist/mapbox-gl.css' rel='stylesheet' />
+      <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 
       <style>
 
@@ -113,7 +114,22 @@
           background:#164777;
           border-radius:0;
         }        
-
+        .marker2 {
+          border: none;
+          cursor: pointer;         
+          background-color: rgba(0, 0, 0, 0);
+          background-repeat: no-repeat;    
+        }  
+          
+        .marker3 {
+          border: none;
+          cursor: pointer;
+          height: 20px;
+          width: 20px;
+          
+          background-size: 20px;    
+          background-color: rgba(0, 0, 0, 0);
+        }   
         .marker {width:0; height:0;}
 
         .marker  span {
@@ -134,27 +150,7 @@
 
         .marker b {transform: rotateZ(135deg)}
           
-        .marker2 {width:0; height:0;}
-
-        .marker2  span {
-          display:flex;
-          justify-content:center;
-          align-items:center;
-          box-sizing:border-box;
-          width: 15px;
-          height: 15px;
-          color: white;
-          background: #164777;
-          border:solid 1px;
-          border-radius: 100% 100% 100%;
-          opacity: 0.8;
-          cursor: pointer;
-            
-          transform-origin:0 0;
-          transform: rotateZ(-135deg);
-        }
-
-        .marker2 b {transform: rotateZ(135deg)}  
+        
 
         .clearfix { display:block; }
         .clearfix:after {
@@ -215,19 +211,87 @@
     zoom: 5,
     scrollZoom: false
   });
-      
-  var url = 'cities.geojson'
+  // layer urls      
+  var excur_url = 'excursions.geojson'
+  var exten_url = 'extensions.geojson'
   var route_url = 'route.geojson'
   
-  // Add zoom and rotation controls to the map.
-  map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+ // Draw the coach routes on the map 
+// Budapest Origin
+var buda_origin = [19.040236, 47.497913];
+ 
+// Bratislava Destination
+var bratdestination = [17.107748, 48.148598];
+      
+var greatCircle = turf.greatCircle(buda_origin, bratdestination, {'name': 'Budapest to Bratslava'});  
+console.log(greatCircle);  
+      
+// Bratslava Origin
+var brats_origin = [17.107748, 48.148598];
+ 
+// Bratislava Destination
+var praguedestination = [14.4378, 50.075539];    
+      
+var greatCircle2 = turf.greatCircle(brats_origin, praguedestination, {'name': 'Bratslava to Prague'});    
+      
+// Ober Origin
+var ober_origin = [11.06562, 47.59589];
+ 
+// Munich Destination
+var munichdestination = [11.581981, 48.135124]; 
+      
+var greatCircle3 = turf.greatCircle(ober_origin, munichdestination, {'name': 'Ober to Munich'});  
+      
+// Munich Origin
+var munich_origin = [11.581981, 48.135124];
+ 
+// Frankfurt Destination
+var frankfurtdestination = [8.682127, 50.110924]; 
+      
+var greatCircle4 = turf.greatCircle(munich_origin, frankfurtdestination, {'name': 'Munich to Frankfurt'});
+      
+// Frankfurt Origin
+var frankfurt_origin = [8.682127, 50.110924]; 
+      
+// Heidelberg Destination
+var heid_destination = [8.672434, 49.39875];      
+      
+var greatCircle5 = turf.greatCircle(frankfurt_origin, heid_destination, {'name': 'Frankfurt to Heidelberg'});     
+ 
+// Dusseldorf Destination
+var dussel_destination = [6.773456, 51.227741];      
+      
+var greatCircle6 = turf.greatCircle(frankfurt_origin, dussel_destination, {'name': 'Frankfurt to Dusseldorf'}); 
+      
+// Dusseldorf Origin
+var dussel_origin = [6.773456, 51.227741];     
+
+// Amsterdam Destination
+var amster_destination = [4.895168, 52.370216];        
+      
+var greatCircle7 = turf.greatCircle(dussel_origin, amster_destination, {'name': 'Dusseldorf to Amsterdam'});        
+
+  
+// Add zoom and rotation controls to the map.
+map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+          
+// Load icons  
+map.loadImage('excursion.png', function(error, image) {
+    if (error) throw error;
+    map.addImage('excursion', image);
+});
+map.loadImage('extensions.png', function(error, image) {
+    if (error) throw error;
+    map.addImage('extension', image);
+});
+	      
       
   // This adds the data to the map
-  map.on('load', function (e) {
+  map.on('load', function (e) {      
     // Load the tour data using AJAX
     $.ajax({
           dataType: 'json',
-          url: 'tourstops.geojson',
+          url: 'tourstops2.geojson',
           type: "GET",    
           success: function(data) {
             // Initialize the list
@@ -239,14 +303,45 @@
             // Create an img element for the marker
             var el = document.createElement('div');
             el.id = "marker-" + i;
-            el.className = 'marker';
+            el.className = 'marker2';
+            el.style.backgroundImage = 'url(' + marker.properties.TYPE + ')';  
+            el.style.width = marker.properties.height + 'px';
+            el.style.height = marker.properties.width + 'px';  
+            el.style.backgroundSize = marker.properties.bgsize + 'px';               
             el.innerHTML = '<span><b>' + '' + '</b></span>'    
             // Add markers to the map at all points
-            new mapboxgl.Marker(el, {offset: [0, 17]})
+            if (marker.properties.TYPE == 'start.png') {
+                new mapboxgl.Marker(el, {offset: [5, 0]})
+                    .setLngLat(marker.geometry.coordinates)
+                    .addTo(map);
+            } else {
+               new mapboxgl.Marker(el, {offset: [0, 0]})
                 .setLngLat(marker.geometry.coordinates)
-                .addTo(map);
+                .addTo(map); 
+            }
 
             el.addEventListener('click', function(e){
+                // 1. Fly to the point
+                //flyToStore(marker);
+
+                // 2. Close all other popups and display popup for clicked store
+                createPopUp(marker);
+
+                // 3. Highlight listing in sidebar (and remove highlight for all other listings)
+                var activeItem = document.getElementsByClassName('active');
+
+                e.stopPropagation();
+                if (activeItem[0]) {
+                   activeItem[0].classList.remove('active');
+                }
+
+                var listing = document.getElementById('listing-' + i);
+                listing.classList.add('active');
+                // scroll to the active element on the sidebar    
+                listing.scrollIntoView();
+            });
+              
+              el.addEventListener('load', function(e){
                 // 1. Fly to the point
                 //flyToStore(marker);
 
@@ -270,20 +365,164 @@
         }
     });
       
-      map.addSource('route', { type: 'geojson', data: route_url }); 
+// Layers for the route lines          
+map.addSource('route', {
+    "type": "geojson",
+    "data": greatCircle
+});
+ 
+ 
+map.addLayer({
+    "id": "route",
+    "source": "route",
+    "type": "line",
+    "paint": {
+        "line-width": 3,
+        "line-color": "#7D9B00"
+    }
+});
+      
+map.addSource('route2', {
+    "type": "geojson",
+    "data": greatCircle2
+});
+ 
+ 
+map.addLayer({
+    "id": "route2",
+    "source": "route2",
+    "type": "line",
+    "paint": {
+        "line-width": 3,
+        "line-color": "#7D9B00"
+    }
+});      
+      
+map.addSource('route3', {
+    "type": "geojson",
+    "data": greatCircle3
+});
+ 
+ 
+map.addLayer({
+    "id": "route3",
+    "source": "route3",
+    "type": "line",
+    "paint": {
+        "line-width": 3,
+        "line-color": "#7D9B00"
+    }
+});     
+      
+map.addSource('route4', {
+    "type": "geojson",
+    "data": greatCircle4
+});
+ 
+ 
+map.addLayer({
+    "id": "route4",
+    "source": "route4",
+    "type": "line",
+    "paint": {
+        "line-width": 3,
+        "line-color": "#7D9B00"
+    }
+});      
+      
+map.addSource('route5', {
+    "type": "geojson",
+    "data": greatCircle5
+});
+ 
+ 
+map.addLayer({
+    "id": "route5",
+    "source": "route5",
+    "type": "line",
+    "paint": {
+        "line-width": 3,
+        "line-color": "#7D9B00"
+    }
+});    
+      
+map.addSource('route6', {
+    "type": "geojson",
+    "data": greatCircle6
+});
+ 
+ 
+map.addLayer({
+    "id": "route6",
+    "source": "route6",
+    "type": "line",
+    "paint": {
+        "line-width": 3,
+        "line-color": "#7D9B00"
+    }
+});   
+      
+map.addSource('route7', {
+    "type": "geojson",
+    "data": greatCircle7
+});
+ 
+ 
+map.addLayer({
+    "id": "route7",
+    "source": "route7",
+    "type": "line",
+    "paint": {
+        "line-width": 3,
+        "line-color": "#7D9B00"
+    }
+});      
+      
+
+      
+      map.addSource('riverroute', { type: 'geojson', data: route_url }); 
       
       map.addLayer({
         id: "path",
         type: "line",
-        source: "route",
+        source: "riverroute",
         paint: {
-        "line-color": "#164777",
-        "line-width": 4        
+        "line-color": "#0092CC",
+        "line-width": 5        
         }
      });
-      map.addSource('cities', { type: 'geojson', data: url }); 
+      map.addSource('excursions', { type: 'geojson', data: excur_url }); 
       
       map.addLayer({
+		"id": "layer_excursions",
+		"type": "symbol",		
+		"source": "excursions",
+		// adjust zoom level at which symbols appear
+		"layout": {
+			"icon-image": 'excursion',
+			"visibility": "visible",
+			"icon-size": .05,
+			"icon-allow-overlap": true
+		}
+	});
+      
+      map.addSource('extensions', { type: 'geojson', data: exten_url }); 
+      
+      map.addLayer({
+		"id": "layer_extensions",
+		"type": "symbol",		
+		"source": "extensions",
+		// adjust zoom level at which symbols appear
+		"layout": {
+			"icon-image": 'extension',
+			"visibility": "visible",
+			"icon-size": .04,
+			"icon-allow-overlap": true
+		}
+	}); 
+      
+      
+      /*map.addLayer({
         id: "city",
         type: "circle",
         source: "cities",
@@ -293,7 +532,7 @@
         "circle-stroke-width": 1,
         "circle-stroke-color": "#fff"
         }
-     });    
+     });    */
       
       /*map.addSource('tour', { type: 'geojson', data: 'tourstops.geojson' }); 
       
@@ -310,7 +549,7 @@
      }); */
   });
       
-  map.on('click', 'city', function (e) {
+  map.on('click', 'layer_excursions', function (e) {
         var feature = e.features[0]; //get the properties of the clicked feature
         console.log(feature);       
         new mapboxgl.Popup({closeOnClick: true, offset: [0, 0]})
@@ -319,14 +558,32 @@
             .addTo(map); // Add the popup to the map        
     });
     
-    map.on('mouseenter', 'city', function () {
+    map.on('mouseenter', 'layer_excursions', function () {
         map.getCanvas().style.cursor = 'pointer';
     });
 
     // Change it back to a pointer when it leaves.
-    map.on('city', function () {
+    map.on('layer_excursions', function () {
         map.getCanvas().style.cursor = '';
-    });      
+    });   
+      
+    map.on('click', 'layer_extensions', function (e) {
+        var feature = e.features[0]; //get the properties of the clicked feature
+        console.log(feature);       
+        new mapboxgl.Popup({closeOnClick: true, offset: [0, 0]})
+            .setLngLat(e.lngLat)          
+            .setHTML('<b>' + feature.properties.NAME + '</b>')                   
+            .addTo(map); // Add the popup to the map        
+    });
+    
+    map.on('mouseenter', 'layer_extensions', function () {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+
+    // Change it back to a pointer when it leaves.
+    map.on('layer_extensions', function () {
+        map.getCanvas().style.cursor = '';
+    });        
 
   function flyToStore(currentFeature) {
     map.flyTo({

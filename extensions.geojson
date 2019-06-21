@@ -1,0 +1,57 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Bratislava"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.107748,
+          48.148598
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Prague"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.4378,
+          50.075539
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Oberammergau"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.06562,
+          47.59589
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Munich"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.581981,
+          48.135124
+        ]
+      }
+    }
+  ]
+}
