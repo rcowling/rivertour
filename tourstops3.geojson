@@ -1,0 +1,252 @@
+﻿{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": "1-3",
+        "LOCATION": "Budapest Hungary",
+        "DESCRIPTION": "Fly overnight to Budapest, Hungary. Satisfy your thirst for Hungary. Going for baroque on a city tour of Budapest.",
+        "TYPE": "start.png",
+        "height": 33,
+        "width": 30,
+        "bgsize": 23
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.040236,
+          47.497913
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": "4-5",
+        "LOCATION": "Vienna",
+        "DESCRIPTION": "Waltzing into Vienna and Liechtenstein Palace. Vienna as you like it, and a private Kursalon concert",
+        "TYPE": "stops.png",
+        "height": 20,
+        "width": 20,
+        "bgsize": 20
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.373819,
+          48.208176
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": 6,
+        "LOCATION": "Dürnstein",
+        "DESCRIPTION": "Scenic Wachau Valley cruising, onboard German lessons",
+        "TYPE": "stops.png",
+        "height": 20,
+        "width": 20,
+        "bgsize": 20
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          15.52017,
+          48.395458
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": 7,
+        "LOCATION": "Passau",
+        "DESCRIPTION": "Music and pub crawls in picturesque Passau.",
+        "TYPE": "stops.png",
+        "height": 20,
+        "width": 20,
+        "bgsize": 20
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.431947,
+          48.566734
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": 8,
+        "LOCATION": "Regensburg",
+        "DESCRIPTION": "Regensburg: Roman architecture and Bavarian charms",
+        "TYPE": "stops.png",
+        "height": 20,
+        "width": 20,
+        "bgsize": 20
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.101624,
+          49.013432
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": 9,
+        "LOCATION": "Nuremberg",
+        "DESCRIPTION": "Nuremberg, customized for you — tour the town’s highlights or explore its WWII history",
+        "TYPE": "stops.png",
+        "height": 20,
+        "width": 20,
+        "bgsize": 20
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.07977,
+          49.446007
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": 10,
+        "LOCATION": "Bamberg",
+        "DESCRIPTION": "Altmühl Valley sailing and walking tour of Bamberg",
+        "TYPE": "stops.png",
+        "height": 20,
+        "width": 20,
+        "bgsize": 20
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.902764,
+          49.898815
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": 11,
+        "LOCATION": "Würzburg",
+        "DESCRIPTION": "Tour and wine tasting inside the Würzburg Residenz",
+        "TYPE": "stops.png",
+        "height": 20,
+        "width": 20,
+        "bgsize": 20
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.980246,
+          49.813616
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": 12,
+        "LOCATION": "Marktheidenfeld",
+        "DESCRIPTION": "Exploring village life in Marktheidenfeld, with a BBQ lunch and traditional live music",
+        "TYPE": "stops.png",
+        "height": 20,
+        "width": 20,
+        "bgsize": 20
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.60066,
+          49.846272
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": 13,
+        "LOCATION": "Heidelberg",
+        "DESCRIPTION": "Day-tripping through romantic Heidelberg",
+        "TYPE": "stops.png",
+        "height": 20,
+        "width": 20,
+        "bgsize": 20
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.698004,
+          49.408737
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": 14,
+        "LOCATION": "Rüdesheim",
+        "DESCRIPTION": "Rhine Valley views; Rüdesheim personalized for you",
+        "TYPE": "stops.png",
+        "height": 20,
+        "width": 20,
+        "bgsize": 20
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.80434,
+          49.84523
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": 15,
+        "LOCATION": "Cologne",
+        "DESCRIPTION": "Sip Kölsch while exploring the historic cultural center of Cologne",
+        "TYPE": "stops.png",
+        "height": 20,
+        "width": 20,
+        "bgsize": 20
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.95991,
+          50.940529
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "DAY": 16,
+        "LOCATION": "Mainz",
+        "DESCRIPTION": "Disembark ship and return home (or begin your extension to Amsterdam!)",
+        "TYPE": "start.png",
+        "height": 33,
+        "width": 30,
+        "bgsize": 23
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.247253,
+          49.992863
+        ]
+      }
+    }
+  ]
+}

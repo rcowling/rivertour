@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset='utf-8' />
+      <title>River Tour Locations</title>
+      <meta name='robots' content='noindex, nofollow'>
+      <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+      <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700' rel='stylesheet'>
+      <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+      crossorigin="anonymous"></script>
+      <script src='https://static-assets.mapbox.com/gl-pricing/dist/mapbox-gl.js'></script>
+      <link href='https://static-assets.mapbox.com/gl-pricing/dist/mapbox-gl.css' rel='stylesheet' />
+      <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+
+      <style>
+
+        body {
+          color:#404040;
+          font:400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
+          margin:0;
+          padding:0;
+          -webkit-font-smoothing:antialiased;
+        }
+
+        * {
+          -webkit-box-sizing:border-box;
+          -moz-box-sizing:border-box;
+          box-sizing:border-box;
+        }
+
+        .sidebar {
+          position:absolute;
+          width:33.3333%;
+          height:100%;
+          top:0;left:0;
+          overflow:hidden;
+          border-right:1px solid rgba(0,0,0,0.25);
+        }
+        .pad2 {
+          padding:20px;
+        }
+
+        .map {
+          position:absolute;
+          left:33.3333%;
+          width:66.6666%;
+          top:0;bottom:0;
+        }
+
+        h1 {
+          font-size:22px;
+          margin:0;
+          font-weight:400;
+          line-height: 20px;
+          padding: 20px 2px;
+        }
+
+        a {
+          color:#404040;
+          text-decoration:none;
+        }
+
+        a:hover {
+          color:#101010;
+        }
+
+        .heading {
+          background:#fff;
+          border-bottom:1px solid #eee;
+          min-height:60px;
+          line-height:60px;
+          padding:0 10px;
+          background-color: #00853e;
+          color: #fff;
+        }
+
+        .listings {
+          height:100%;
+          overflow:auto;
+          padding-bottom:60px;
+        }
+
+        .listings .item {
+          display:block;
+          border-bottom:1px solid #eee;
+          padding:10px;
+          text-decoration:none;
+        }
+
+        .listings .item:last-child { border-bottom:none; }
+        .listings .item .title {
+          display:block;
+          color:#164777;
+          font-weight:700;
+          font-size: 20px;    
+        }
+
+        .listings .item .title small { font-weight:400; }
+        .listings .item.active .title,.listings .item.active .text, .listings .item.active .details
+         { color:white; }
+        .listings .item.active {
+          background-color:#ff890b;
+        }
+        ::-webkit-scrollbar {
+          width:3px;
+          height:3px;
+          border-left:0;
+          background:rgba(0,0,0,0.1);
+        }
+        ::-webkit-scrollbar-track {
+          background:none;
+        }
+        ::-webkit-scrollbar-thumb {
+          background:#164777;
+          border-radius:0;
+        }        
+        .marker2 {
+          border: none;
+          cursor: pointer;         
+          background-color: rgba(0, 0, 0, 0);
+          background-repeat: no-repeat;    
+        }  
+          
+        .marker3 {
+          border: none;
+          cursor: pointer;
+          height: 20px;
+          width: 20px;
+          
+          background-size: 20px;    
+          background-color: rgba(0, 0, 0, 0);
+        }   
+        .marker {width:0; height:0;}
+
+        .marker  span {
+          display:flex;
+          justify-content:center;
+          align-items:center;
+          box-sizing:border-box;
+          width: 25px;
+          height: 25px;
+          color: white;
+          background: #ff580e;
+          border: solid 1px;
+          border-radius: 100% 100% 100%;              
+          cursor: pointer;            
+          transform-origin:0 0;
+          transform: rotateZ(-135deg);
+        }
+
+        .marker b {transform: rotateZ(135deg)}
+          
+        
+
+        .clearfix { display:block; }
+        .clearfix:after {
+          content:'.';
+          display:block;
+          height:0;
+          clear:both;
+          visibility:hidden;
+        }
+
+        /* Marker tweaks */
+        .mapboxgl-popup {
+          padding-bottom: 0px;
+           
+        }
+
+        .mapboxgl-popup-close-button {
+          display:none;
+        }
+        .mapboxgl-popup-content {
+          font:400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
+          padding:5px;
+          width:auto;
+          height: auto;    
+        }
+         
+
+      </style>
+  </head>
+
+  <body>
+    <div class='sidebar'>      
+    <div id='listings' class='listings'></div>
+    </div>
+    <div id='map' class='map'> </div>
+
+  <script>
+  // This will let you use the .remove() function later on
+  if (!('remove' in Element.prototype)) {
+    Element.prototype.remove = function() {
+      if (this.parentNode) {
+          this.parentNode.removeChild(this);
+      }
+    };
+  }
+
+  mapboxgl.accessToken = 'pk.eyJ1IjoicmNvd2xpbmciLCJhIjoiY2lzZ2YwcjZtMDFwdzNvcnQ3bmR3NXFhcCJ9.TI01a_YqNaqKWigFu70x7w';
+
+  // This adds the map
+  var map = new mapboxgl.Map({
+    // container id specified in the HTML
+    container: 'map',
+    // style URL
+    style: 'mapbox://styles/rcowling/cjuu7he8g1rco1fs2fpclbxh2',
+    // initial position in [long, lat] format
+    center: [9.980246, 49.813616],
+    // initial zoom
+    zoom: 5,
+    scrollZoom: false
+  });
+  // layer urls      
+  var excur_url = 'excursions.geojson'
+  var exten_url = 'extensions.geojson'
+  var route_url = 'route.geojson'
+  
+ // Draw the coach routes on the map 
+// Budapest Origin
+var buda_origin = [19.040236, 47.497913];
+ 
+// Bratislava Destination
+var bratdestination = [17.107748, 48.148598];
+      
+var greatCircle = turf.greatCircle(buda_origin, bratdestination, {'name': 'Budapest to Bratslava'});  
+console.log(greatCircle);  
+      
+// Bratslava Origin
+var brats_origin = [17.107748, 48.148598];
+ 
+// Bratislava Destination
+var praguedestination = [14.4378, 50.075539];    
+      
+var greatCircle2 = turf.greatCircle(brats_origin, praguedestination, {'name': 'Bratslava to Prague'});    
+      
+// Ober Origin
+var ober_origin = [11.06562, 47.59589];
+ 
+// Munich Destination
+var munichdestination = [11.581981, 48.135124]; 
+      
+var greatCircle3 = turf.greatCircle(ober_origin, munichdestination, {'name': 'Ober to Munich'});  
+      
+// Munich Origin
+var munich_origin = [11.581981, 48.135124];
+ 
+// Frankfurt Destination
+var frankfurtdestination = [8.682127, 50.110924]; 
+      
+var greatCircle4 = turf.greatCircle(munich_origin, frankfurtdestination, {'name': 'Munich to Frankfurt'});
+      
+// Frankfurt Origin
+var frankfurt_origin = [8.682127, 50.110924]; 
+      
+// Heidelberg Destination
+var heid_destination = [8.672434, 49.39875];      
+      
+var greatCircle5 = turf.greatCircle(frankfurt_origin, heid_destination, {'name': 'Frankfurt to Heidelberg'});     
+ 
+// Dusseldorf Destination
+var dussel_destination = [6.773456, 51.227741];      
+      
+var greatCircle6 = turf.greatCircle(frankfurt_origin, dussel_destination, {'name': 'Frankfurt to Dusseldorf'}); 
+      
+// Dusseldorf Origin
+var dussel_origin = [6.773456, 51.227741];     
+
+// Amsterdam Destination
+var amster_destination = [4.895168, 52.370216];        
+      
+var greatCircle7 = turf.greatCircle(dussel_origin, amster_destination, {'name': 'Dusseldorf to Amsterdam'});        
+
+  
+// Add zoom and rotation controls to the map.
+map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+          
+// Load icons  
+map.loadImage('excursion.png', function(error, image) {
+    if (error) throw error;
+    map.addImage('excursion', image);
+});
+map.loadImage('extensions.png', function(error, image) {
+    if (error) throw error;
+    map.addImage('extension', image);
+});
+	      
+      
+  // This adds the data to the map
+  map.on('load', function (e) {      
+    // Load the tour data using AJAX
+    $.ajax({
+          dataType: 'json',
+          url: 'tourstops3.geojson',
+          type: "GET",    
+          success: function(data) {
+            // Initialize the list
+            buildLocationList(data); 
+
+          // This is where your interactions with the symbol layer used to be
+          // Now you have interactions with DOM markers instead
+          data.features.forEach(function(marker, i) {
+            // Create an img element for the marker
+            var el = document.createElement('div');
+            el.id = "marker-" + i;
+            el.className = 'marker2';
+            el.style.backgroundImage = 'url(' + marker.properties.TYPE + ')';  
+            el.style.width = marker.properties.height + 'px';
+            el.style.height = marker.properties.width + 'px';  
+            el.style.backgroundSize = marker.properties.bgsize + 'px';               
+            el.innerHTML = '<span><b>' + '' + '</b></span>'    
+            // Add markers to the map at all points
+            if (marker.properties.TYPE == 'start.png') {
+                new mapboxgl.Marker(el, {offset: [5, 0]})
+                    .setLngLat(marker.geometry.coordinates)
+                    .addTo(map);
+            } else {
+               new mapboxgl.Marker(el, {offset: [0, 0]})
+                .setLngLat(marker.geometry.coordinates)
+                .addTo(map); 
+            }
+
+            el.addEventListener('click', function(e){
+                // 1. Fly to the point
+                //flyToStore(marker);
+
+                // 2. Close all other popups and display popup for clicked store
+                createPopUp(marker);
+
+                // 3. Highlight listing in sidebar (and remove highlight for all other listings)
+                var activeItem = document.getElementsByClassName('active');
+
+                e.stopPropagation();
+                if (activeItem[0]) {
+                   activeItem[0].classList.remove('active');
+                }
+
+                var listing = document.getElementById('listing-' + i);
+                listing.classList.add('active');
+                // scroll to the active element on the sidebar    
+                listing.scrollIntoView();
+            });
+              
+              el.addEventListener('load', function(e){
+                // 1. Fly to the point
+                //flyToStore(marker);
+
+                // 2. Close all other popups and display popup for clicked store
+                createPopUp(marker);
+
+                // 3. Highlight listing in sidebar (and remove highlight for all other listings)
+                var activeItem = document.getElementsByClassName('active');
+
+                e.stopPropagation();
+                if (activeItem[0]) {
+                   activeItem[0].classList.remove('active');
+                }
+
+                var listing = document.getElementById('listing-' + i);
+                listing.classList.add('active');
+                // scroll to the active element on the sidebar    
+                listing.scrollIntoView();
+            });
+        });
+        }
+    });
+      
+// Layers for the route lines          
+map.addSource('route', {
+    "type": "geojson",
+    "data": greatCircle
+});
+ 
+ 
+map.addLayer({
+    "id": "route",
+    "source": "route",
+    "type": "line",
+    "paint": {
+        "line-width": 3,
+        "line-color": "#7D9B00"
+    }
+});
+      
+map.addSource('route2', {
+    "type": "geojson",
+    "data": greatCircle2
+});
+ 
+ 
+map.addLayer({
+    "id": "route2",
+    "source": "route2",
+    "type": "line",
+    "paint": {
+        "line-width": 3,
+        "line-color": "#7D9B00"
+    }
+});      
+      
+map.addSource('route3', {
+    "type": "geojson",
+    "data": greatCircle3
+});
+ 
+ 
+map.addLayer({
+    "id": "route3",
+    "source": "route3",
+    "type": "line",
+    "paint": {
+        "line-width": 3,
+        "line-color": "#7D9B00"
+    }
+});     
+      
+map.addSource('route4', {
+    "type": "geojson",
+    "data": greatCircle4
+});
+ 
+ 
+map.addLayer({
+    "id": "route4",
+    "source": "route4",
+    "type": "line",
+    "paint": {
+        "line-width": 3,
+        "line-color": "#7D9B00"
+    }
+});      
+      
+map.addSource('route5', {
+    "type": "geojson",
+    "data": greatCircle5
+});
+ 
+ 
+map.addLayer({
+    "id": "route5",
+    "source": "route5",
+    "type": "line",
+    "paint": {
+        "line-width": 3,
+        "line-color": "#7D9B00"
+    }
+});    
+      
+map.addSource('route6', {
+    "type": "geojson",
+    "data": greatCircle6
+});
+ 
+ 
+map.addLayer({
+    "id": "route6",
+    "source": "route6",
+    "type": "line",
+    "paint": {
+        "line-width": 3,
+        "line-color": "#7D9B00"
+    }
+});   
+      
+map.addSource('route7', {
+    "type": "geojson",
+    "data": greatCircle7
+});
+ 
+ 
+map.addLayer({
+    "id": "route7",
+    "source": "route7",
+    "type": "line",
+    "paint": {
+        "line-width": 3,
+        "line-color": "#7D9B00"
+    }
+});      
+      
+
+      
+      map.addSource('riverroute', { type: 'geojson', data: route_url }); 
+      
+      map.addLayer({
+        id: "path",
+        type: "line",
+        source: "riverroute",
+        paint: {
+        "line-color": "#0092CC",
+        "line-width": 5        
+        }
+     });
+      map.addSource('excursions', { type: 'geojson', data: excur_url }); 
+      
+      map.addLayer({
+		"id": "layer_excursions",
+		"type": "symbol",		
+		"source": "excursions",
+		// adjust zoom level at which symbols appear
+		"layout": {
+			"icon-image": 'excursion',
+			"visibility": "visible",
+			"icon-size": .05,
+			"icon-allow-overlap": true
+		}
+	});
+      
+      map.addSource('extensions', { type: 'geojson', data: exten_url }); 
+      
+      map.addLayer({
+		"id": "layer_extensions",
+		"type": "symbol",		
+		"source": "extensions",
+		// adjust zoom level at which symbols appear
+		"layout": {
+			"icon-image": 'extension',
+			"visibility": "visible",
+			"icon-size": .04,
+			"icon-allow-overlap": true
+		}
+	}); 
+      
+      
+      /*map.addLayer({
+        id: "city",
+        type: "circle",
+        source: "cities",
+        paint: {
+        "circle-color": "#11b4da",
+        "circle-radius": 5,
+        "circle-stroke-width": 1,
+        "circle-stroke-color": "#fff"
+        }
+     });    */
+      
+      /*map.addSource('tour', { type: 'geojson', data: 'tourstops.geojson' }); 
+      
+      map.addLayer({
+        id: "stops",
+        type: "circle",
+        source: "tour",
+        paint: {
+        "circle-color": "#11b4da",
+        "circle-radius": 12,
+        "circle-stroke-width": 1,
+        "circle-stroke-color": "#fff"
+        }
+     }); */
+  });
+      
+  map.on('click', 'layer_excursions', function (e) {
+        var feature = e.features[0]; //get the properties of the clicked feature
+        console.log(feature);       
+        new mapboxgl.Popup({closeOnClick: true, offset: [0, 0]})
+            .setLngLat(e.lngLat)          
+            .setHTML('<b>' + feature.properties.NAME + '</b>')                   
+            .addTo(map); // Add the popup to the map        
+    });
+    
+    map.on('mouseenter', 'layer_excursions', function () {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+
+    // Change it back to a pointer when it leaves.
+    map.on('layer_excursions', function () {
+        map.getCanvas().style.cursor = '';
+    });   
+      
+    map.on('click', 'layer_extensions', function (e) {
+        var feature = e.features[0]; //get the properties of the clicked feature
+        console.log(feature);       
+        new mapboxgl.Popup({closeOnClick: true, offset: [0, 0]})
+            .setLngLat(e.lngLat)          
+            .setHTML('<b>' + feature.properties.NAME + '</b>')                   
+            .addTo(map); // Add the popup to the map        
+    });
+    
+    map.on('mouseenter', 'layer_extensions', function () {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+
+    // Change it back to a pointer when it leaves.
+    map.on('layer_extensions', function () {
+        map.getCanvas().style.cursor = '';
+    });        
+
+  function flyToStore(currentFeature) {
+    map.flyTo({
+        center: currentFeature.geometry.coordinates,
+        zoom: 15
+      });
+  }
+
+  function createPopUp(currentFeature) {
+    var popUps = document.getElementsByClassName('mapboxgl-popup');
+    if (popUps[0]) popUps[0].remove();
+
+
+    var popup = new mapboxgl.Popup({closeOnClick: true})
+          .setLngLat(currentFeature.geometry.coordinates)
+          .setHTML('<center><text style="color:#164777; font-size: 24px; font-weight: 700;">DAY</text>' + ' ' +
+                   '<text style="color:#ff890b; font-size: 24px; font-weight: 700;">' + 
+                   currentFeature.properties.DAY  + '</text>' + '<br><b>' + currentFeature.properties.LOCATION + '</b>'  )
+          .addTo(map);
+  }
+
+
+  function buildLocationList(data) {
+    for (i = 0; i < data.features.length; i++) {
+      var currentFeature = data.features[i];
+      var prop = currentFeature.properties;
+
+      var listings = document.getElementById('listings');
+      var listing = listings.appendChild(document.createElement('div'));
+      listing.className = 'item';
+      listing.id = "listing-" + i;
+
+      var link = listing.appendChild(document.createElement('a'));
+      link.href = '#';
+      link.className = 'title';
+      link.dataPosition = i;
+      link.innerHTML = 'DAY ' + prop.DAY;
+        
+      var city = listing.appendChild(document.createElement('div'));
+      city.className = 'text';    
+      city.innerHTML = '<b>' + prop.LOCATION; + '</b>'    
+
+      var details = listing.appendChild(document.createElement('div'));
+      details.className = 'details';    
+      details.innerHTML = prop.DESCRIPTION;
+        
+      link.addEventListener('click', function(e){
+        // Update the currentFeature to the store associated with the clicked link
+        var clickedListing = data.features[this.dataPosition];
+
+        // 1. Fly to the point
+        flyToStore(clickedListing);
+
+        // 2. Close all other popups and display popup for clicked store
+        createPopUp(clickedListing);
+
+        // 3. Highlight listing in sidebar (and remove highlight for all other listings)
+        var activeItem = document.getElementsByClassName('active');
+
+        if (activeItem[0]) {
+           activeItem[0].classList.remove('active');
+        }
+        this.parentNode.classList.add('active');
+
+      });
+    }
+  }
+
+
+    </script>
+  </body>
+</html>
