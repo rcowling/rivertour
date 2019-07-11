@@ -8,9 +8,14 @@
       <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700' rel='stylesheet'>
       <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
       crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
       <script src='https://static-assets.mapbox.com/gl-pricing/dist/mapbox-gl.js'></script>
-      <link href='https://static-assets.mapbox.com/gl-pricing/dist/mapbox-gl.css' rel='stylesheet' />
+      <link href='https://static-assets.mapbox.com/gl-pricing/dist/mapbox-gl.css' rel='stylesheet' />      
       <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+      <script src="https://unpkg.com/popper.js@1"></script>
+      <script src="https://unpkg.com/tippy.js@4"></script>
+      <link rel="stylesheet" href="https://unpkg.com/tippy.js@4/themes/light.css" />
 
       <style>
 
@@ -176,7 +181,24 @@
           width:auto;
           height: auto;    
         }
-         
+          #legend {
+              position:absolute;
+              right: 0px;
+              bottom:0px;
+              padding: 2px;
+              height: 40px;
+              width: 132px;
+              background-color: white;
+              z-index: 9;
+              box-shadow: 0 0 7px black;
+            
+          }
+          
+          .legend-image {
+              margin: 3.5px;
+          }              
+        
+
 
       </style>
   </head>
@@ -185,9 +207,22 @@
     <div class='sidebar'>      
     <div id='listings' class='listings'></div>
     </div>
+    <div id="legend">
+        
+<img src="start.png" class="legend-image" data-tippy-content="ARRIVAL/DEPARTURE" data-tippy-arrow="true" width="21" height="26" style="margin-bottom: 2px;">
+
+<img src="stops.png" class="legend-image" data-tippy-content="DESTINATION" data-tippy-arrow="true" width="22px" height="22px">
+
+<img src="excursion.png" class="legend-image" data-tippy-content="OPTIONAL EXCURSION" data-tippy-arrow="true" width="22" height="22">
+
+<img src="extensions.png" class="legend-image" data-tippy-content="OPTIONAL EXTENSION" data-tippy-arrow="true" width="20" height="23">        
+      </div>  
     <div id='map' class='map'> </div>
 
   <script>
+  tippy('img', {
+  theme: 'light', // or 'light-border', 'google', ...
+})
   // This will let you use the .remove() function later on
   if (!('remove' in Element.prototype)) {
     Element.prototype.remove = function() {
