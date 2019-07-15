@@ -25,6 +25,7 @@
           margin:0;
           padding:0;
           -webkit-font-smoothing:antialiased;
+            overflow: hidden;
         }
 
         * {
@@ -187,7 +188,7 @@
               bottom:0px;
               padding: 2px;
               height: 40px;
-              width: 132px;
+              width: 162px;
               background-color: white;
               z-index: 9;
               box-shadow: 0 0 7px black;
@@ -196,10 +197,7 @@
           
           .legend-image {
               margin: 3.5px;
-          }              
-        
-
-
+          }   
       </style>
   </head>
 
@@ -208,7 +206,7 @@
     <div id='listings' class='listings'></div>
     </div>
     <div id="legend">
-        
+        <h3 style="display:inline-block; position: relative; bottom: 9px;">Key</h3>
 <img src="start.png" class="legend-image" data-tippy-content="ARRIVAL/DEPARTURE" data-tippy-arrow="true" width="21" height="26" style="margin-bottom: 2px;">
 
 <img src="stops.png" class="legend-image" data-tippy-content="DESTINATION" data-tippy-arrow="true" width="22px" height="22px">
@@ -250,6 +248,7 @@
   var excur_url = 'excursions.geojson'
   var exten_url = 'extensions.geojson'
   var route_url = 'route.geojson'
+  var coach_route_url = 'excursion_route.geojson'
   
  // Draw the coach routes on the map 
 // Budapest Origin
@@ -400,7 +399,7 @@ map.loadImage('extensions.png', function(error, image) {
         }
     });
       
-// Layers for the route lines          
+/*// Layers for the route lines          
 map.addSource('route', {
     "type": "geojson",
     "data": greatCircle
@@ -512,7 +511,7 @@ map.addLayer({
         "line-color": "#7D9B00"
     }
 });      
-      
+      */
 
       
       map.addSource('riverroute', { type: 'geojson', data: route_url }); 
@@ -526,6 +525,20 @@ map.addLayer({
         "line-width": 5        
         }
      });
+      
+      
+      map.addSource('coachroute', { type: 'geojson', data: coach_route_url }); 
+      
+      map.addLayer({
+        id: "coach",
+        type: "line",
+        source: "coachroute",
+        paint: {
+        "line-color": "#7D9B00",
+        "line-width": 4       
+        }
+     });  
+      
       map.addSource('excursions', { type: 'geojson', data: excur_url }); 
       
       map.addLayer({
